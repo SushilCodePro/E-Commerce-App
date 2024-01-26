@@ -1,0 +1,27 @@
+
+
+.navContainer{
+    display: flex;
+    border: 10px solid green;
+    height: 25px;
+    padding: 10px;
+}
+.navContainer  .logo{
+    flex: 50%;
+    font-size: large;
+    font-weight: 700;
+    text-decoration: none;
+    color: rgba(11, 8, 8, 0.851);
+}
+.right{
+    text-decoration: none; 
+    color: rgba(23, 22, 22, 0.837);
+}
+
+.navContainer ul{
+    display: flex;
+    flex: 50%;
+    /* text-decoration: none; */
+    list-style: none;
+    gap: 120px;
+}
