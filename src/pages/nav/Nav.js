@@ -12,7 +12,7 @@ function Nav(){
                     <li>Home</li>
                 </Link>
                 <Link to={`/login`} className={style.right}>
-                    <li>Singn In</li>
+                    <li>Sign In</li>
                 </Link>
             </ul>
         </div>

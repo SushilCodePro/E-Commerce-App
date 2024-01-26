@@ -7,6 +7,7 @@
     padding: 10px;
     background-color: rgb(71, 98, 142);
     /* box-shadow: #b55454; */
+    margin-bottom: 15px;
 }
 .navContainer  .logo{
     flex: 50%;
