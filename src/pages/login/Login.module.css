@@ -1,0 +1,42 @@
+.signinContainer{
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    height: 70vh;
+    /* border: 10px solid rgb(217, 20, 43); */
+}
+.signin{
+    height: 300px;
+    width: 400px;
+    /* border: 10px solid rgb(27, 20, 217); */
+}
+.signin h1{
+    margin-left: 90px;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    margin: 20px 90px;
+    gap: 15px;
+}
+.form input{
+    padding: 10px;
+    border-radius: 10px;
+}
+.form button{
+    padding:10px; 
+    border-radius: 10px;
+    background-color: rgb(138 173 233);
+    cursor: pointer;
+}
+.formfoot{
+        text-decoration: none;
+        color: rgb(34, 73, 87);
+        font-family: Quicksand;
+        /* font-size: medium;
+        font-weight: 300; */
+}
+/* .formfoot p{
+    font-size: medium;
+    font-weight: 300;
+} */

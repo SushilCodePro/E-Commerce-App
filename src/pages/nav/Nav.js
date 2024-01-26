@@ -11,7 +11,7 @@ function Nav(){
                 <Link to={`/`} className={style.right}>
                     <li>Home</li>
                 </Link>
-                <Link to={`/singin`} className={style.right}>
+                <Link to={`/login`} className={style.right}>
                     <li>Singn In</li>
                 </Link>
             </ul>
