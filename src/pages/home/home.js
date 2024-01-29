@@ -10,7 +10,7 @@ function Home() {
     const [items, setitems] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [priceRange, setPriceRange]=useState(57000);
+    const [priceRange, setPriceRange]=useState(87000);
 
     useEffect(() => {
         const db = getFirestore(app);
@@ -153,7 +153,7 @@ function Home() {
                     {
                         filteredItems.map((item, index) => (
                             <div className={style.itempro} key={`item-${index}`}>
-                                <img src={item.Image} style={{ height: 200, width: 200 }}></img>
+                                <img src={item.Image} style={{ height: 200, width: 197 }}></img>
                                 <h3>{item.Title}</h3>
                                 <h3>{item.Price}</h3>
                             </div>
