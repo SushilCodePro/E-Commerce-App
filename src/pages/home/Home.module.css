@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     /* flex-wrap: wrap; */
-    height: 100vh;
-    border: 5px solid rgb(220, 67, 46);
+    height: auto;
+    border: 5px solid rgb(55, 46, 220);
 }
 .homeContainer .search {
     display: flex;
@@ -20,17 +20,41 @@
     display: flex;
     /* flex: 100%; */
     margin: 10px;
-     padding: 10px; 
+    padding: 10px; 
     border:  5px solid rgb(247 74 106);
     gap: 10px;
 }
 .homeLeft{
     flex: 30%;
-    height: 30vh;
+    height: 40vh;
     border: 5px solid green;
 }
+.rangeInput {
+    background-color: #7064e5;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 6px;
+    /* -webkit-transform: scale(1); */
+    transform: scale(1);
+    width: 90%;
+}
+.homeLeft ul{
+    padding-top: 20px;
+    list-style: none;
+    /* gap: 5px; */
+}
+.homeLeft ul li{
+    padding-top:5px ;
+}
 .homeRight{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
     flex: 70%;
-    height: 30vh;
-    border: 5px solid rgb(40, 13, 120);
+    height: auto;
+    border: 5px solid rgb(37, 181, 157);
+}
+.homeRight .itempro{
+    border: 2px solid rgb(128, 0, 13);
+
 }
