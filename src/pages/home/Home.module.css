@@ -24,8 +24,14 @@
     border:  5px solid rgb(247 74 106);
     gap: 10px;
 }
+.scrollableContainer {
+    flex: 70%;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
 .homeLeft{
     flex: 30%;
+    background-color: #f0f0fc;
+    /* position: fixed; */
     height: 40vh;
     border: 5px solid green;
 }
@@ -49,6 +55,7 @@
 .homeRight{
     display: flex;
     flex-wrap: wrap;
+    /* margin-right: 33%; */
     gap: 5px;
     flex: 70%;
     height: auto;

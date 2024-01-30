@@ -10,7 +10,7 @@ function Home() {
     const [items, setitems] = useState([]);
     const [searchValue, setSearchValue] = useState("");
     const [selectedCategories, setSelectedCategories] = useState([]);
-    const [priceRange, setPriceRange]=useState(87000);
+    const [priceRange, setPriceRange] = useState(87000);
 
     useEffect(() => {
         const db = getFirestore(app);
@@ -39,41 +39,41 @@ function Home() {
     // console.log("befor click check",checked);
     function onChangeHandle(e) {
         e.persist();
-        console.log("precheck",e.target.checked);
+        console.log("precheck", e.target.checked);
         // Check if the event target is a checkbox
         if (e.target.type === "checkbox") {
-          // If it's a checkbox, update selected categories
-          const category = e.target.value;
-          
-          console.log("cat",e.target.value);
-          setSelectedCategories((prevCategories) =>
-            // If the checkbox is checked, add the category to the array
-            e.target.checked
-              ? [...prevCategories, category]
-              // If the checkbox is unchecked, remove the category from the array
-              : prevCategories.filter((c) => c !== category)
-          );
-          
+            // If it's a checkbox, update selected categories
+            const category = e.target.value;
+
+            console.log("cat", e.target.value);
+            setSelectedCategories((prevCategories) =>
+                // If the checkbox is checked, add the category to the array
+                e.target.checked
+                    ? [...prevCategories, category]
+                    // If the checkbox is unchecked, remove the category from the array
+                    : prevCategories.filter((c) => c !== category)
+            );
+
         } else {
-          // If it's the search input, update searchValue
-          setSearchValue(e.target.value);
+            // If it's the search input, update searchValue
+            setSearchValue(e.target.value);
         }
-        console.log("after",selectedCategories);
-      } 
+        console.log("after", selectedCategories);
+    }
 
     // const filteredItems = items.filter((item) => item.Title.toLowerCase().includes(searchValue.toLowerCase()));
     const filteredItems = items.filter(
         (item) =>
-          item.Title.toLowerCase().includes(searchValue.toLowerCase()) &&
-          (selectedCategories.length === 0 ||
-            selectedCategories.includes(item.Category))&&(item.Price<=priceRange)
-      );
-      
-        function updatePrice(e){
-            console.log("range",e.target.value); 
-            setPriceRange(Number(e.target.value));
-            console.log("range",priceRange);
-        }
+            item.Title.toLowerCase().includes(searchValue.toLowerCase()) &&
+            (selectedCategories.length === 0 ||
+                selectedCategories.includes(item.Category)) && (item.Price <= priceRange)
+    );
+
+    function updatePrice(e) {
+        console.log("range", e.target.value);
+        setPriceRange(Number(e.target.value));
+        console.log("range", priceRange);
+    }
     return (
         <div className={style.homeContainer}>
             <AddItems />
@@ -91,14 +91,14 @@ function Home() {
                     <h2>Filter</h2>
                     <div>
                         <label htmlFor="price">Price:{priceRange}</label>
-                        <input 
-                            type='range' 
+                        <input
+                            type='range'
                             id='price'
                             min="0"
                             max="99991"
                             step="10"
                             value={priceRange}
-                            onInput={(e)=>updatePrice(e)}
+                            onInput={(e) => updatePrice(e)}
                             className={style.rangeInput}
                         />
                     </div>
@@ -110,8 +110,8 @@ function Home() {
                                 id="menClothing"
                                 value="Men's Clothing"
                                 onChange={(e) => onChangeHandle(e)}
-                                // checked="true"
-                                // checked={selectedCategories.includes("Men's Clothing")}//  determine the initial checked state
+                            // checked="true"
+                            // checked={selectedCategories.includes("Men's Clothing")}//  determine the initial checked state
                             />
                             <label htmlFor="menClothing">Men's Clothing</label>
                         </li>
@@ -121,7 +121,7 @@ function Home() {
                                 id="womenClothing"
                                 value="Women's Clothing"
                                 onChange={(e) => onChangeHandle(e)}
-                                // checked={selectedCategories.includes("Women's Clothing")}
+                            // checked={selectedCategories.includes("Women's Clothing")}
                             />
                             <label htmlFor="womenClothing">Women's Clothing</label>
                         </li>
@@ -131,7 +131,7 @@ function Home() {
                                 id="jewelry"
                                 value="Jewelry"
                                 onChange={(e) => onChangeHandle(e)}
-                                // checked={selectedCategories.includes("Jewelry")}
+                            // checked={selectedCategories.includes("Jewelry")}
                             />
                             <label htmlFor="jewelry">Jewelry</label>
                         </li>
@@ -141,26 +141,27 @@ function Home() {
                                 id="electronics"
                                 value="Electronics"
                                 onChange={(e) => onChangeHandle(e)}
-                                // checked={selectedCategories.includes("Electronics")}
+                            // checked={selectedCategories.includes("Electronics")}
                             />
                             <label htmlFor="electronics">Electronics</label>
                         </li>
-                       
+
                     </ul>
 
                 </div>
-                <div className={style.homeRight}>
-                    {
-                        filteredItems.map((item, index) => (
-                            <div className={style.itempro} key={`item-${index}`}>
-                                <img src={item.Image} alt={`Product: ${item.Title}`} style={{ height: 200, width: 197 }}></img>
-                                <h3>{item.Title}</h3>
-                                <h3>{item.Price}</h3>
-                            </div>
-                        ))
-                    }
-
-                </div>
+                {/* <div className={style.scrollableContainer}> */}
+                    <div className={style.homeRight}>
+                        {
+                            filteredItems.map((item, index) => (
+                                <div className={style.itempro} key={`item-${index}`}>
+                                    <img src={item.Image} alt={`Product: ${item.Title}`} style={{ height: 200, width: 197 }}></img>
+                                    <h3>{item.Title}</h3>
+                                    <h3>{item.Price}</h3>
+                                </div>
+                            ))
+                        }
+                    </div>
+                {/* </div> */}
             </div>
         </div>
     );
