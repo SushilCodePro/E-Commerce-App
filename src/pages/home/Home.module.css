@@ -52,16 +52,34 @@
 .homeLeft ul li{
     padding-top:5px ;
 }
+/* .homeRightContainer{
+
+} */
 .homeRight{
     display: flex;
     flex-wrap: wrap;
     /* margin-right: 33%; */
-    gap: 5px;
+    gap: 15px;
     flex: 70%;
-    height: auto;
-    border: 5px solid rgb(37, 181, 157);
+    height: auto
+    /* border: 5px solid rgb(37, 181, 157); */
 }
-.homeRight .itempro{
-    border: 2px solid rgb(128, 0, 13);
+.homeRight .itempro {
+    /* border: 2px solid rgb(128, 0, 13); */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px 0 rgba(64, 77, 148, .4);
+}
+.cartButton {
+    background: #7064e5;
+    border: 1px solid #7064e5;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 20px;
+    padding: 5px;
+    cursor: pointer;
+    /* transition: all .3s ease-in-out; */
+    /* width: 50%;
+        width: 100%; */
 
 }

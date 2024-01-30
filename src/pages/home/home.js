@@ -90,7 +90,7 @@ function Home() {
                 <div className={style.homeLeft}>
                     <h2>Filter</h2>
                     <div>
-                        <label htmlFor="price">Price:{priceRange}</label>
+                        <label htmlFor="price">Price: ₹{priceRange}</label>
                         <input
                             type='range'
                             id='price'
@@ -157,6 +157,7 @@ function Home() {
                                     <img src={item.Image} alt={`Product: ${item.Title}`} style={{ height: 200, width: 197 }}></img>
                                     <h3>{item.Title}</h3>
                                     <h3>₹ {item.Price}</h3>
+                                    <button className={style.cartButton}>Add To Cart</button>
                                 </div>
                             ))
                         }
