@@ -156,7 +156,7 @@ function Home() {
                                 <div className={style.itempro} key={`item-${index}`}>
                                     <img src={item.Image} alt={`Product: ${item.Title}`} style={{ height: 200, width: 197 }}></img>
                                     <h3>{item.Title}</h3>
-                                    <h3>{item.Price}</h3>
+                                    <h3>₹ {item.Price}</h3>
                                 </div>
                             ))
                         }

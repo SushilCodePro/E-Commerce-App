@@ -10,17 +10,20 @@ import { useEffect } from 'react';
 function App() {
   
   function notify() {
+    //It takes two parameters: the content of the toast and the configuration options.
     toast.info(
+      //1-content/message/information
       <div style={{ fontWeight: 'bold', fontSize: '1.5em', color:'green', }}>
         <p>I am working on the UI.</p>
         <p>You must check Functionality.</p>
-        <button onClick={() => toast.dismiss()}>Cancel</button>
+        {/* <button onClick={() => toast.dismiss()}>Cancel</button> */}
       </div>,
+      //2-configuration
       {
-        position: 'top-right',
+        position: 'top-center',
         autoClose: false,
-        closeOnClick: false,
-        closeButton: false,
+        // closeOnClick: false,
+        // closeButton: false,// by default it true, means x button appear and it works
         draggable: false,
       }
     );
@@ -29,6 +32,9 @@ function App() {
     notify(); // Call notify when the component mounts
   }, []);
 
+  //(ToastContainer) responsible for rendering and managing toast notifications in your React application.
+  //This(ToastContainer) component should be rendered once at the root level of your application to provide
+  // a container for all toast notifications.
   return (
     <Router>
       <div>

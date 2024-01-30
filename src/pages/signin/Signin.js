@@ -15,7 +15,7 @@ function Signin() {
       const newUser = userCredential.user;
 
       // Update user's display name using updateProfile
-      await updateDisplayName(newUser, name);
+      // await updateDisplayName(newUser, name);
 
       console.log('User signed up successfully!');
       console.log('New User ID:', newUser.uid);
@@ -25,24 +25,24 @@ function Signin() {
     }
   };
 
-  const updateDisplayName = async (user, displayName) => {
-    try {
-      await setDisplayName(user, displayName);
-    } catch (error) {
-      console.error('Error updating display name:', error.message);
-    }
-  };
+  // const updateDisplayName = async (user, displayName) => {
+  //   try {
+  //     await setDisplayName(user, displayName);
+  //   } catch (error) {
+  //     console.error('Error updating display name:', error.message);
+  //   }
+  // };
 
-  const setDisplayName = (user, displayName) => {
-    return new Promise((resolve, reject) => {
-      // This is a workaround as the updateProfile method is not available directly in Firebase v9
-      user.updateProfile({
-        displayName: displayName,
-      })
-      .then(() => resolve())
-      .catch((error) => reject(error));
-    });
-  };
+  // const setDisplayName = (user, displayName) => {
+  //   return new Promise((resolve, reject) => {
+  //     // This is a workaround as the updateProfile method is not available directly in Firebase v9
+  //     user.updateProfile({
+  //       displayName: displayName,
+  //     })
+  //     .then(() => resolve())
+  //     .catch((error) => reject(error));
+  //   });
+  // };
 
   return (
     <div className={style.signinContainer}>

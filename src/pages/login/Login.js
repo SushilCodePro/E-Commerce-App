@@ -16,6 +16,8 @@ function Login() {
 
     const handleSignIn = async () => {
         try {
+            //he provided line of code attempts to sign in a user with the provided email and password, 
+            //and once the sign-in is successful, it stores the UserCredential object in the userCredential variable
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
             console.log('User signed in successfully!');

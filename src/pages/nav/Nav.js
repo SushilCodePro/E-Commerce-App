@@ -8,7 +8,8 @@ function Nav() {
      const navigate = useNavigate();
 
     useEffect(() => {
-        // Subscribe to authentication state changes
+        //This method is provided by Firebase Authentication. It sets up a listener for authentication state changes.
+        // It takes a callback function (callback) that will be called whenever the authentication state changes.
         const unsubscribe = auth.onAuthStateChanged((authUser) => {
         setUser(authUser);
         });
