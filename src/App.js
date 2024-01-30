@@ -4,11 +4,13 @@ import Nav from './pages/nav/Nav';
 import Home from './pages/home/home';
 import Signin from './pages/signin/Signin';
 import Login from './pages/login/Login';
+import Mycart from './pages/cart/Mycart';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect } from 'react';
+import {useEffect } from 'react';
 function App() {
   
+  // const [additem, setAddItem]=useState([]);
   function notify() {
     //It takes two parameters: the content of the toast and the configuration options.
     toast.info(
@@ -35,6 +37,10 @@ function App() {
   //(ToastContainer) responsible for rendering and managing toast notifications in your React application.
   //This(ToastContainer) component should be rendered once at the root level of your application to provide
   // a container for all toast notifications.
+  // function addItemHandle(item){
+  //      setAddItem((prevItems)=>[...prevItems,item]) ;
+  // }
+  // console.log("cart",additem);
   return (
     <Router>
       <div>
@@ -42,9 +48,12 @@ function App() {
       </div>
       <Nav />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/"
+          element={<Home />}
+        />
         <Route path="/signin" element={<Signin />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/mycart" element={<Mycart />} />
       </Routes>
     </Router>
   );

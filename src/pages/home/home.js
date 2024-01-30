@@ -3,7 +3,9 @@ import style from './Home.module.css'
 import { useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
 import { app } from "../../Firebase";
-import { collection, getFirestore, onSnapshot } from "firebase/firestore";
+import { collection, getFirestore, onSnapshot, doc, setDoc, getDoc } from "firebase/firestore";
+// import { Link } from 'react-router-dom';
+import { getAuth } from "firebase/auth";
 
 function Home() {
 
@@ -11,6 +13,7 @@ function Home() {
     const [searchValue, setSearchValue] = useState("");
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [priceRange, setPriceRange] = useState(87000);
+    const [additem, setAddItem] = useState([]);
 
     useEffect(() => {
         const db = getFirestore(app);
@@ -74,6 +77,56 @@ function Home() {
         setPriceRange(Number(e.target.value));
         console.log("range", priceRange);
     }
+
+    async function addItemHandle(item) {
+        // Update the local state
+        setAddItem((prevItems) => [...prevItems, item]);
+
+        // Update Firestore
+        const auth = getAuth(app);
+        const user = auth.currentUser;
+
+        if (user) {
+            try {
+                const userId = user.uid;
+                const db = getFirestore(app);
+                const userDocRef = doc(collection(db, 'users'), userId);
+                const cartCollectionRef = collection(userDocRef, 'cart');
+
+                // Check if the item is already in the cart
+                const existingCartItem = await getDoc(doc(cartCollectionRef, item.id));
+
+                if (existingCartItem.exists()) {
+                    // Item already exists, update quantity or other fields as needed
+                    // For example, you might increment the quantity
+                    await setDoc(doc(cartCollectionRef, item.id),
+                        {
+                            quantity: existingCartItem.data().quantity + 1,
+                        },
+                        { merge: true }
+                    );
+                    alert("Product already in cart, increased count");
+                } else {
+                    // Item doesn't exist, add it to the cart
+                    await setDoc(doc(cartCollectionRef, item.id),
+                        {
+                            itemId: item.id,
+                            quantity: 1, // Initial quantity, adjust as needed
+                            Title:item.Title,
+                            Price:item.Price,
+                            Image:item.Image,
+                            CreatedAt: new Date()
+                            // Other fields related to the item
+                        });
+                    alert("Product added to cart successfully");
+                }
+            } catch (error) {
+                console.error('Error updating Firestore:', error);
+            }
+        }
+    }
+
+    console.log("cart", additem);
     return (
         <div className={style.homeContainer}>
             <AddItems />
@@ -150,18 +203,19 @@ function Home() {
 
                 </div>
                 {/* <div className={style.scrollableContainer}> */}
-                    <div className={style.homeRight}>
-                        {
-                            filteredItems.map((item, index) => (
-                                <div className={style.itempro} key={`item-${index}`}>
-                                    <img src={item.Image} alt={`Product: ${item.Title}`} style={{ height: 200, width: 197 }}></img>
-                                    <h3>{item.Title}</h3>
-                                    <h3>₹ {item.Price}</h3>
-                                    <button className={style.cartButton}>Add To Cart</button>
-                                </div>
-                            ))
-                        }
-                    </div>
+                <div className={style.homeRight}>
+                    {
+                        filteredItems.map((item, index) => (
+                            <div className={style.itempro} key={`item-${index}`}>
+                                <img src={item.Image} alt={`Product: ${item.Title}`} style={{ height: 200, width: 197 }}></img>
+                                <h3>{item.Title}</h3>
+                                <h3>₹ {item.Price}</h3>
+
+                                <button onClick={() => addItemHandle(item)} className={style.cartButton}>Add To Cart</button>
+                            </div>
+                        ))
+                    }
+                </div>
                 {/* </div> */}
             </div>
         </div>

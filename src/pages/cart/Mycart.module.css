@@ -1,0 +1,6 @@
+.itempro {
+    /* border: 2px solid rgb(128, 0, 13); */
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px 0 rgba(64, 77, 148, .4);
+}
