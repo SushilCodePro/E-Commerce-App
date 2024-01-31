@@ -18,15 +18,17 @@ function Mycart() {
     
           // Use onSnapshot to listen for real-time updates
           const unsubscribe = onSnapshot(cartCollectionRef, (snapshot) => {
-            const updatedCartData = snapshot.docs.map(doc => doc.data());
-            setCartItems(updatedCartData);
-          });
+            setCartItems(() => {
+                const updatedCartData = snapshot.docs.map(doc => doc.data());
+                return updatedCartData;
+            });
+        });
           
-          const totalItems=cartItems.map((item)=>(
-            item.quantity
-          )).reduce((acc,count)=>acc+count,0)
+        //   const totalItems=cartItems.map((item)=>(
+        //     item.quantity
+        //   )).reduce((acc,count)=>acc+count,0)
 
-          console.log("Navbar:",totalItems);
+        //   console.log("Navbar:",totalItems);
 
           
           // To stop listening, call the unsubscribe function when the component unmounts
