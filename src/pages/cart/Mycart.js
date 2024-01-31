@@ -5,7 +5,7 @@ import { getAuth } from "firebase/auth";
 import style from './Mycart.module.css'
 function Mycart() {
     const [cartItems, setCartItems] = useState([]);
-
+    const [totalPrice, setTotalPrice] = useState(0);
     useEffect(() => {
         const auth = getAuth(app);
         const user = auth.currentUser;
@@ -21,7 +21,14 @@ function Mycart() {
             const updatedCartData = snapshot.docs.map(doc => doc.data());
             setCartItems(updatedCartData);
           });
-    
+          
+          const totalItems=cartItems.map((item)=>(
+            item.quantity
+          )).reduce((acc,count)=>acc+count,0)
+
+          console.log("Navbar:",totalItems);
+
+          
           // To stop listening, call the unsubscribe function when the component unmounts
           return () => unsubscribe();
         }
@@ -40,12 +47,12 @@ function Mycart() {
             
             // Delete the document
             await deleteDoc(itemDocRef);
-             // Fetch updated cart items after deletion
+            // Fetch updated cart items after deletion
             //  const updatedCartSnapshot = await getDocs(cartCollectionRef);
             //  const updatedCartData = updatedCartSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             //  setCartItems(updatedCartData);
  
-             alert("Item Removed");
+            //  alert("Item Removed");
          } else {
              alert("Invalid User");
          }
@@ -69,7 +76,7 @@ function Mycart() {
               quantity: currentQuantity + 1,
             });
       
-            alert("Item quantity increased!");
+            // alert("Item quantity increased!");
           } else {
             alert("Invalid User");
           }
@@ -78,16 +85,47 @@ function Mycart() {
           alert("Failed to increase item quantity. Please try again.");
         }
       }
-    function handleDecrease(item){
-
-    }
+      async function handleDecrease(item) {
+        const auth = getAuth(app);
+        const user = auth.currentUser;
+      
+        try {
+          if (user) {
+            const userId = user.uid;
+            const db = getFirestore(app);
+            const userDocRef = doc(collection(db, 'users'), userId);
+            const cartCollectionRef = collection(userDocRef, 'cart');
+            const itemDocRef = doc(cartCollectionRef, item.itemId);
+      
+            const currentQuantity = item.quantity || 0;
+            if(currentQuantity<=0){
+                return;
+            }
+            await updateDoc(itemDocRef, {
+              quantity: currentQuantity - 1,
+            });
+      
+            // alert("Item quantity increased!");
+          } else {
+            alert("Invalid User");
+          }
+        } catch (error) {
+          console.error("Error updating item quantity:", error.message);
+          alert("Failed to increase item quantity. Please try again.");
+        }
+      }
+      const itemsPrice = cartItems.map((item) =>(  
+        item.Price *item.quantity)
+       ).reduce((acc, price) => acc + price, 0);
+    //    setTotalPrice(itemsPrice);
+       console.log("itemsPrice: ",itemsPrice);
 
     return (
         <div>
             <h2>Your Cart</h2>
             <div className={style.mainBody}>
                 <div className={style.homeLeft}>
-                    <p>Total Price: ₹999999</p>
+                    <p>Total Price: ₹{itemsPrice}</p>
                     <button className={style.placeOrder}>Place Order</button>
                 </div>
 
