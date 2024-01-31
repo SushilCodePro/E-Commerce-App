@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { app } from "../../Firebase";
-import { collection, getFirestore, doc, getDocs, deleteDoc, updateDoc, onSnapshot } from "firebase/firestore";
+import { collection, getFirestore, doc, deleteDoc, updateDoc, onSnapshot } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import style from './Mycart.module.css'
 function Mycart() {
     const [cartItems, setCartItems] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
+    // const [totalPrice, setTotalPrice] = useState(0);
     useEffect(() => {
         const auth = getAuth(app);
         const user = auth.currentUser;
