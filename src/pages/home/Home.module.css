@@ -24,10 +24,10 @@
     border:  5px solid rgb(247 74 106);
     gap: 10px;
 }
-.scrollableContainer {
+/* .scrollableContainer {
     flex: 70%;
-    overflow-y: auto; /* Enable vertical scrolling */
-}
+    overflow-y: auto; 
+} */
 .homeLeft{
     flex: 30%;
     background-color: #f0f0fc;
