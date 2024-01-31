@@ -17,6 +17,10 @@ function Mycart() {
           const cartCollectionRef = collection(userDocRef, 'cart');
     
           // Use onSnapshot to listen for real-time updates
+        //   const unsubscribe = onSnapshot(cartCollectionRef, (snapshot) => {
+        //     const updatedCartData = snapshot.docs.map(doc => doc.data());
+        //     setCartItems(updatedCartData);
+        //   });
           const unsubscribe = onSnapshot(cartCollectionRef, (snapshot) => {
             setCartItems(() => {
                 const updatedCartData = snapshot.docs.map(doc => doc.data());

@@ -129,7 +129,7 @@ function Home() {
     console.log("cart", additem);
     return (
         <div className={style.homeContainer}>
-            <AddItems />
+            {/* <AddItems /> */}
             <div className={style.search}>
                 <input
                     type='text'
