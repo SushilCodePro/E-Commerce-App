@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { auth } from '../../Firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 
 import style from './Login.module.css';
 
@@ -50,6 +50,9 @@ function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <button onClick={handleSignIn}>Log In</button>
+                    <Link to={`/signin`} className={style.formfoot}>
+                        <p>Or SignUp instead</p>
+                    </Link>
                     {error && <p className={style.error}>{error}</p>}
                 </div>
             </div>
