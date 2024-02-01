@@ -44,7 +44,7 @@ function Nav() {
                         <Link to={`/mycart`} className={style.right}>
                             <li>My Cart</li>
                         </Link>
-                        <Link to={`/myorder`} className={style.right}>
+                        <Link to={`/order`} className={style.right}>
                             <li>My Orders</li>
                         </Link>
                         {/* <button onClick={handleLogout} className={style.right}>

@@ -1,46 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { app } from "../../Firebase";
-import { collection, getFirestore, doc, deleteDoc, updateDoc, onSnapshot } from "firebase/firestore";
+import { collection, getFirestore, doc, setDoc, deleteDoc, updateDoc, onSnapshot, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import style from './Mycart.module.css'
+// import { Link } from "react-router-dom";
 function Mycart() {
     const [cartItems, setCartItems] = useState([]);
     // const [totalPrice, setTotalPrice] = useState(0);
     useEffect(() => {
         const auth = getAuth(app);
         const user = auth.currentUser;
-    
+
         if (user) {
-          const userId = user.uid;
-          const db = getFirestore(app);
-          const userDocRef = doc(collection(db, 'users'), userId);
-          const cartCollectionRef = collection(userDocRef, 'cart');
-    
-          // Use onSnapshot to listen for real-time updates
-        //   const unsubscribe = onSnapshot(cartCollectionRef, (snapshot) => {
-        //     const updatedCartData = snapshot.docs.map(doc => doc.data());
-        //     setCartItems(updatedCartData);
-        //   });
-          const unsubscribe = onSnapshot(cartCollectionRef, (snapshot) => {
-            setCartItems(() => {
-                const updatedCartData = snapshot.docs.map(doc => doc.data());
-                return updatedCartData;
+            const userId = user.uid;
+            const db = getFirestore(app);
+            const userDocRef = doc(collection(db, 'users'), userId);
+            const cartCollectionRef = collection(userDocRef, 'cart');
+            console.log("cartCollectionRef:", cartCollectionRef);
+            // Use onSnapshot to listen for real-time updates
+            //   const unsubscribe = onSnapshot(cartCollectionRef, (snapshot) => {
+            //     const updatedCartData = snapshot.docs.map(doc => doc.data());
+            //     setCartItems(updatedCartData);
+            //   });
+            const unsubscribe = onSnapshot(cartCollectionRef, (snapshot) => {
+                console.log("snapshot:", snapshot);
+                setCartItems(() => {
+                    const updatedCartData = snapshot.docs.map(doc => doc.data());
+                    return updatedCartData;
+                });
             });
-        });
-          
-        //   const totalItems=cartItems.map((item)=>(
-        //     item.quantity
-        //   )).reduce((acc,count)=>acc+count,0)
 
-        //   console.log("Navbar:",totalItems);
+            //   const totalItems=cartItems.map((item)=>(
+            //     item.quantity
+            //   )).reduce((acc,count)=>acc+count,0)
 
-          
-          // To stop listening, call the unsubscribe function when the component unmounts
-          return () => unsubscribe();
+            //   console.log("Navbar:",totalItems);
+
+
+            // To stop listening, call the unsubscribe function when the component unmounts
+            return () => unsubscribe();
         }
-      }, []); // Empty dependency array means this effect runs once when the component mounts
+    }, []); // Empty dependency array means this effect runs once when the component mounts
 
-   async function removeItemHandle(item) {
+    async function removeItemHandle(item) {
         const auth = getAuth(app);
         const user = auth.currentUser;
 
@@ -50,89 +52,143 @@ function Mycart() {
             const userDocRef = doc(collection(db, 'users'), userId);
             const cartCollectionRef = collection(userDocRef, 'cart');
             const itemDocRef = doc(cartCollectionRef, item.itemId);
-            
+
             // Delete the document
             await deleteDoc(itemDocRef);
             // Fetch updated cart items after deletion
             //  const updatedCartSnapshot = await getDocs(cartCollectionRef);
             //  const updatedCartData = updatedCartSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
             //  setCartItems(updatedCartData);
- 
+
             //  alert("Item Removed");
-         } else {
-             alert("Invalid User");
-         }
+        } else {
+            alert("Invalid User");
+        }
     }
 
 
     async function handleIncrease(item) {
         const auth = getAuth(app);
         const user = auth.currentUser;
-      
+
         try {
-          if (user) {
-            const userId = user.uid;
-            const db = getFirestore(app);
-            const userDocRef = doc(collection(db, 'users'), userId);
-            const cartCollectionRef = collection(userDocRef, 'cart');
-            const itemDocRef = doc(cartCollectionRef, item.itemId);
-      
-            const currentQuantity = item.quantity || 0;
-            await updateDoc(itemDocRef, {
-              quantity: currentQuantity + 1,
-            });
-      
-            // alert("Item quantity increased!");
-          } else {
-            alert("Invalid User");
-          }
+            if (user) {
+                const userId = user.uid;
+                const db = getFirestore(app);
+                const userDocRef = doc(collection(db, 'users'), userId);
+                const cartCollectionRef = collection(userDocRef, 'cart');
+                const itemDocRef = doc(cartCollectionRef, item.itemId);
+
+                const currentQuantity = item.quantity || 0;
+                await updateDoc(itemDocRef, {
+                    quantity: currentQuantity + 1,
+                });
+
+                // alert("Item quantity increased!");
+            } else {
+                alert("Invalid User");
+            }
         } catch (error) {
-          console.error("Error updating item quantity:", error.message);
-          alert("Failed to increase item quantity. Please try again.");
+            console.error("Error updating item quantity:", error.message);
+            alert("Failed to increase item quantity. Please try again.");
         }
-      }
-      async function handleDecrease(item) {
+    }
+    async function handleDecrease(item) {
         const auth = getAuth(app);
         const user = auth.currentUser;
-      
+
         try {
-          if (user) {
-            const userId = user.uid;
-            const db = getFirestore(app);
-            const userDocRef = doc(collection(db, 'users'), userId);
-            const cartCollectionRef = collection(userDocRef, 'cart');
-            const itemDocRef = doc(cartCollectionRef, item.itemId);
-      
-            const currentQuantity = item.quantity || 0;
-            if(currentQuantity<=0){
-                return;
+            if (user) {
+                const userId = user.uid;
+                const db = getFirestore(app);
+                const userDocRef = doc(collection(db, 'users'), userId);
+                const cartCollectionRef = collection(userDocRef, 'cart');
+                const itemDocRef = doc(cartCollectionRef, item.itemId);
+
+                const currentQuantity = item.quantity || 0;
+                if (currentQuantity <= 0) {
+                    return;
+                }
+                await updateDoc(itemDocRef, {
+                    quantity: currentQuantity - 1,
+                });
+
+                // alert("Item quantity increased!");
+            } else {
+                alert("Invalid User");
             }
-            await updateDoc(itemDocRef, {
-              quantity: currentQuantity - 1,
-            });
-      
-            // alert("Item quantity increased!");
-          } else {
-            alert("Invalid User");
-          }
         } catch (error) {
-          console.error("Error updating item quantity:", error.message);
-          alert("Failed to increase item quantity. Please try again.");
+            console.error("Error updating item quantity:", error.message);
+            alert("Failed to increase item quantity. Please try again.");
         }
-      }
-      const itemsPrice = cartItems.map((item) =>(  
-        item.Price *item.quantity)
-       ).reduce((acc, price) => acc + price, 0);
+    }
+    const totalPrice = cartItems.map((item) => (
+        item.Price * item.quantity)
+    ).reduce((acc, price) => acc + price, 0);
     //    setTotalPrice(itemsPrice);
-       console.log("itemsPrice: ",itemsPrice);
+    console.log("itemsPrice: ", totalPrice);
+
+    async function orderHandle() {
+        const auth = getAuth(app);
+        const user = auth.currentUser;
+
+        try {
+            if (user) {
+                const userId = user.uid;
+                const db = getFirestore(app);
+                const userDocRef = doc(collection(db, 'users'), userId);
+                const cartCollectionRef = collection(userDocRef, 'orders');
+                const orderId=await addDoc(cartCollectionRef,{});
+                // const orderRef=doc(cartCollectionRef,orderId);
+                const tranCollectionRef = collection(orderId, 'Transaction');
+                // const orderNumberDocRef = doc(collection(db, 'orderNumbers'), 'latestOrderNumber');
+
+                // // Get the current order number
+                // const orderNumberDoc = await getDoc(orderNumberDocRef);
+                // const currentOrderNumber = orderNumberDoc.exists() ? orderNumberDoc.data().value : 0;
+
+                // // Increment the order number for the next order
+                // await updateDoc(orderNumberDocRef, { value: currentOrderNumber + 1 });
+
+                // const orderDocRef = doc(cartCollectionRef, `transaction-${currentOrderNumber + 1}`);
+                // // const existingCartItem = await getDoc(doc(cartCollectionRef, item.id));
+                for (const item of cartItems) {
+                    const itemDocRef = doc(tranCollectionRef, item.itemId);
+    
+                    // Update the quantity for a specific item within the order
+                    await setDoc(itemDocRef, {
+                        itemId: item.itemId,
+                        quantity: item.quantity, // Initial quantity, adjust as needed
+                        Title: item.Title,
+                        Price: item.Price,
+                        Image: item.Image,
+                        CreatedAt: new Date(),
+                        // Other fields related to the item
+                    });
+                }
+
+                alert("Order Placed successfully");
+
+                console.log("OrderRef: ",cartCollectionRef);
+            } else {
+                alert("Invalid User");
+            }
+        } catch (error) {
+            console.error("Error updating item quantity:", error.message);
+            alert("Failed to increase item quantity. Please try again.");
+        }
+    }
 
     return (
         <div>
             <h2>Your Cart</h2>
             <div className={style.mainBody}>
                 <div className={style.homeLeft}>
-                    <p>Total Price: ₹{itemsPrice}</p>
-                    <button className={style.placeOrder}>Place Order</button>
+                    <p>Total Price: ₹{totalPrice}</p>
+                    {/* <Link to={`/order`}>
+                        <button className={style.placeOrder}>Place Order</button>
+                    </Link> */}
+                    <button onClick={() => orderHandle()} className={style.placeOrder}>Place Order</button>
                 </div>
 
                 <div className={style.homeRight}>
@@ -145,16 +201,16 @@ function Mycart() {
                                     <p>₹ {item.Price}</p>
                                     <div className={style.count}>
                                         <img
-                                        style={{cursor:'pointer'}}
-                                        onClick={()=>handleDecrease(item)}
-                                        alt="- Icon" 
-                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFElEQVR4nO2WT2rCQBTGf5dwUWuK55D2AIVWeg012rN016J00aX7/rmJEU9h4s6IZeAJocTJm0mmZOEH3yaQ/Hhf3rw3cFELdQNMgR8gAXbiRJ7FQNQk8Bp4A3LgWOEDsAT6daFPQKYA/nUKDH2hz1KBK7RY/cyn0kMNaBGurrznGa8t9q4G/N4g9OS55shoutfVuSR5VrMA0JMnNvB3QPCnDbwJCE5s4LTkhQHuuj3T3U5g8xFX3bmC1wGjXrWyueKA4JENHAUaIPuqAWK0CAB+Rbn4y7rb11vgCqXuG4rcrMVHLbQ4t+teBMwdzUtDz9hNvA/UVAd4kc7UVPnh8k816slq+5IplIlXMhzGmiNzEf+tX262pRCJmsimAAAAAElFTkSuQmCC" />
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => handleDecrease(item)}
+                                            alt="- Icon"
+                                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABFElEQVR4nO2WT2rCQBTGf5dwUWuK55D2AIVWeg012rN016J00aX7/rmJEU9h4s6IZeAJocTJm0mmZOEH3yaQ/Hhf3rw3cFELdQNMgR8gAXbiRJ7FQNQk8Bp4A3LgWOEDsAT6daFPQKYA/nUKDH2hz1KBK7RY/cyn0kMNaBGurrznGa8t9q4G/N4g9OS55shoutfVuSR5VrMA0JMnNvB3QPCnDbwJCE5s4LTkhQHuuj3T3U5g8xFX3bmC1wGjXrWyueKA4JENHAUaIPuqAWK0CAB+Rbn4y7rb11vgCqXuG4rcrMVHLbQ4t+teBMwdzUtDz9hNvA/UVAd4kc7UVPnh8k816slq+5IplIlXMhzGmiNzEf+tX262pRCJmsimAAAAAElFTkSuQmCC" />
                                         {item.quantity}
                                         <img
-                                        style={{cursor:'pointer'}}
-                                        onClick={()=>handleIncrease(item)}
-                                        alt="+ Icon" 
-                                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABHUlEQVR4nO2WQWrCQBSGv0t0oVXxHFIPIKj0GlWrZ3HXonTRpXutNzHFUxjdNZISeEIIY/Je0iku/OFtwpCP988/bwbuukG1gFdgCwTASSqQbxOg+ZfAR+AdiIC4oM7ACmhXhT4DRwUwWyEwLAudSQdWaLr7aZlOzxWgabi684bS3g7wpLS9rgF/KLu5SLN2oTkykQdwJE5e1dSwfxZwDIzzwF8ewes88N4jOMgDh1fSa5Ur7aEVnPzEqq4V/O3R6t1NhmviEfySB256GiA/RQMk0dID+A3lxe9KtyvtrvRm6wDUUKpnsLzoWhxooem5XfUhkLzRSmmotN1lb5+KegDmkkxNl5+WPdWoIVfbRqbQUWonw2GkOTJ38d/6BZ8CjheXznrAAAAAAElFTkSuQmCC" />
+                                            style={{ cursor: 'pointer' }}
+                                            onClick={() => handleIncrease(item)}
+                                            alt="+ Icon"
+                                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAABHUlEQVR4nO2WQWrCQBSGv0t0oVXxHFIPIKj0GlWrZ3HXonTRpXutNzHFUxjdNZISeEIIY/Je0iku/OFtwpCP988/bwbuukG1gFdgCwTASSqQbxOg+ZfAR+AdiIC4oM7ACmhXhT4DRwUwWyEwLAudSQdWaLr7aZlOzxWgabi684bS3g7wpLS9rgF/KLu5SLN2oTkykQdwJE5e1dSwfxZwDIzzwF8ewes88N4jOMgDh1fSa5Ur7aEVnPzEqq4V/O3R6t1NhmviEfySB256GiA/RQMk0dID+A3lxe9KtyvtrvRm6wDUUKpnsLzoWhxooem5XfUhkLzRSmmotN1lb5+KegDmkkxNl5+WPdWoIVfbRqbQUWonw2GkOTJ38d/6BZ8CjheXznrAAAAAAElFTkSuQmCC" />
                                     </div>
                                 </div>
                                 {/* <h3></h3> */}

@@ -13,7 +13,7 @@ function Home() {
     const [searchValue, setSearchValue] = useState("");
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [priceRange, setPriceRange] = useState(87000);
-    const [additem, setAddItem] = useState([]);
+    // const [additem, setAddItem] = useState([]);
 
     useEffect(() => {
         const db = getFirestore(app);
@@ -80,7 +80,7 @@ function Home() {
 
     async function addItemHandle(item) {
         // Update the local state
-        setAddItem((prevItems) => [...prevItems, item]);
+        // setAddItem((prevItems) => [...prevItems, item]);
 
         // Update Firestore
         const auth = getAuth(app);
@@ -126,7 +126,7 @@ function Home() {
         }
     }
 
-    console.log("cart", additem);
+    // console.log("cart", additem);
     return (
         <div className={style.homeContainer}>
             {/* <AddItems /> */}
