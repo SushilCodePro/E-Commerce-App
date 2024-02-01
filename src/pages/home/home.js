@@ -1,4 +1,4 @@
-import AddItems from './AddItems';
+// import AddItems from './AddItems';
 import style from './Home.module.css'
 import { useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
