@@ -3,25 +3,30 @@
     flex-direction: column;
     /* flex-wrap: wrap; */
     height: auto;
-    border: 5px solid rgb(55, 46, 220);
+    /* border: 5px solid rgb(55, 46, 220); */
 }
 .homeContainer .search {
     display: flex;
-    border: 5px solid rgb(46, 220, 130);
+    width: 25%;
+    margin: auto;
+    /* border: 5px solid rgb(46, 220, 130); */
 }
 .homeContainer .search input{
-    border-color: rgb(149, 132, 206);
-    margin: auto;
+    /* border-color: rgb(149, 132, 206); */
+    border:1px solid #7064e5;
+    background:#f4f6f8!important;
+    margin-top:15px ;
     padding: 15px;
     border-radius: 8px;
-  
+    width: 100%;
+    color: #7064e5;
 }
 .homeContainer .mainBody {
     display: flex;
     /* flex: 100%; */
-    margin: 10px;
+    margin: 10px 10px 0 10px;
     padding: 10px; 
-    border:  5px solid rgb(247 74 106);
+    /* border:  5px solid rgb(247 74 106); */
     gap: 10px;
 }
 /* .scrollableContainer {
@@ -29,11 +34,13 @@
     overflow-y: auto; 
 } */
 .homeLeft{
-    flex: 30%;
+    position: sticky;
+    top: 27%;
+    flex: 20%;
     background-color: #f0f0fc;
     /* position: fixed; */
     height: 40vh;
-    border: 5px solid green;
+    /* border: 5px solid green; */
 }
 .rangeInput {
     background-color: #7064e5;
@@ -60,7 +67,7 @@
     flex-wrap: wrap;
     /* margin-right: 33%; */
     gap: 15px;
-    flex: 70%;
+    flex: 80%;
     height: auto
     /* border: 5px solid rgb(37, 181, 157); */
 }
