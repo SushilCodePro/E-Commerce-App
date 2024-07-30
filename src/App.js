@@ -6,7 +6,7 @@ import Signin from './pages/signin/Signin';
 import Login from './pages/login/Login';
 import Mycart from './pages/cart/Mycart';
 import Order from './pages/order/Order';
-import { ToastContainer, toast } from 'react-toastify';
+import {toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useEffect } from 'react';
 
